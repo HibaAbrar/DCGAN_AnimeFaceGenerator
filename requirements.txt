@@ -1,0 +1,6 @@
+streamlit
+torch
+torchvision
+matplotlib
+numpy
+urllib3  # Ensures smooth URL downloads

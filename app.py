@@ -18,7 +18,6 @@ if not os.path.exists(MODEL_PATH):
     st.info("Downloading model... This may take a few seconds.")
     urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
 
-
 # ==== GENERATOR MODEL (MUST MATCH TRAINING DEFINITION) ====
 class Generator(nn.Module):
     def __init__(self, input_vector_dim, feature_map_dim=32, channels=3):
@@ -50,60 +49,18 @@ class Generator(nn.Module):
 # ==== LOAD TRAINED GENERATOR ====
 generator = Generator(INPUT_VECTOR_DIM).to(DEVICE)
 generator.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
-# generator.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE, weights_only=True))
 generator.eval()
-
-# # ==== GENERATE IMAGES ====
-# def generate_images(num_images=9):
-#     noise = torch.randn(num_images, INPUT_VECTOR_DIM, 1, 1, device=DEVICE)  # Generate latent noise
-#     with torch.no_grad():
-#         generated_images = generator(noise).cpu()
-
-#     # ==== DISPLAY GENERATED IMAGES ====
-#     plt.figure(figsize=(8, 8))
-#     plt.axis("off")
-#     plt.title("Generated Images")
-#     plt.imshow(np.transpose(vutils.make_grid(generated_images, padding=5, normalize=True, nrow=3), (1, 2, 0)))
-#     plt.show()
-
-# def generate_images():
-#     noise = torch.randn(1, INPUT_VECTOR_DIM, 1, 1, device=DEVICE)  # Generate single latent noise
-#     with torch.no_grad():
-#         generated_image = generator(noise).cpu()
-
-#     # Convert tensor to image format
-#     img = np.transpose(generated_image[0], (1, 2, 0))  # Move channel dim to last
-#     img = (img + 1) / 2  # Normalize from [-1,1] to [0,1]
-
-#     # Display the generated image
-#     plt.figure(figsize=(6, 6))
-#     plt.axis("off")
-#     plt.imshow(img)
-#     plt.show()
-
-
 
 def generate_images():
     noise = torch.randn(1, INPUT_VECTOR_DIM, 1, 1, device=DEVICE)
     with torch.no_grad():
         generated_image = generator(noise).cpu()
-
-    # fig, ax = plt.subplots()
     fig, ax = plt.subplots(figsize=(1, 1), dpi=300) 
     ax.axis("off")
     ax.imshow(np.transpose(vutils.make_grid(generated_image, padding=2, normalize=True), (1, 2, 0)))
+    st.pyplot(fig)  
 
-    st.pyplot(fig)  # Use st.pyplot() instead of plt.show()
-
-
-# ==== STREAMLIT UI ====
 st.title("DCGAN Face Generator")
 
 if st.button("Generate Image"):
     generate_images()
-
-# Generate and display one image
-# generate_images()
-
-
-# PUBLIC LINKK   https://dcganfacegenerator-thispersondoesnotexist.streamlit.app/

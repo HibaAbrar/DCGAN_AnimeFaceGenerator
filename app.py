@@ -89,7 +89,7 @@ def generate_images():
         generated_image = generator(noise).cpu()
 
     # fig, ax = plt.subplots()
-    fig, ax = plt.subplots(figsize=(1, 1)) 
+    fig, ax = plt.subplots(figsize=(1, 1), dpi=100) 
     ax.axis("off")
     ax.imshow(np.transpose(vutils.make_grid(generated_image, padding=2, normalize=True), (1, 2, 0)))
 

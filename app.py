@@ -9,7 +9,7 @@ import streamlit as st
 
 # ==== CONFIGURATION ====
 MODEL_URL = "https://raw.githubusercontent.com/HibaAbrar/DCGAN_Face_Generator/generator_epoch_50.pth"
-MODEL_PATH = "generator_epoch_26.pth"
+MODEL_PATH = "generator_epoch_50.pth"
 INPUT_VECTOR_DIM = 100
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
